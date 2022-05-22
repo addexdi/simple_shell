@@ -8,20 +8,28 @@
  */
 char *handl_comment(char *input)
 {
-	int i = 0, j = 0;
+	int i, j;
 
-	if (*input == '#')
+	j = 0;
+	for (i = 0; input[i]; i++)
 	{
-		free(input);
-		return (NULL);
-	}
-	for (i = 1, j = 0; input[i]; i++, j++)
-	{
-		if (input[i] == '#' && (input[j] == ' ' || input[j] == '\t'))
+		if (input[i] == '#')
 		{
-			input = _realloc(input, i, j + 1);
-			input[j] = '\0';
+			if (i == 0)
+			{
+				free(input);
+				return (NULL);
+			}
+
+			if (input[i - 1] == ' ' || input[i - 1] == '\t' || input[i - 1] == ';')
+				j = i;
 		}
+	}
+
+	if (j != 0)
+	{
+		input = _realloc(input, i, j + 1);
+		input[j] = '\0';
 	}
 
 	return (input);

@@ -9,35 +9,39 @@
  */
 char **get_toks(char *args, char *delimiter)
 {
-	int i = 0;
-	char *token = NULL;
-	char **output = malloc(MAXARGS * sizeof(char *));
+	size_t bsize;
+	size_t i;
+	char **tokens;
+	char *token;
 
-	if (output == NULL)
+	bsize = MAXARGS;
+	tokens = malloc(sizeof(char *) * (bsize));
+	if (tokens == NULL)
 	{
-		free(output);
+		write(STDERR_FILENO, ": allocation error\n", 18);
 		exit(EXIT_FAILURE);
 	}
 
 	token = _strtok(args, delimiter);
-	while (token != NULL)
+	tokens[0] = token;
+
+	for (i = 1; token != NULL; i++)
 	{
-		output[i] = token;
-		i++;
-		if (i == MAXARGS)
+		if (i == bsize)
 		{
-			output = _realloc(output, i, i * sizeof(char *));
-			if (output == NULL)
+			bsize += MAXARGS;
+			tokens = _reallocdp(tokens, i, sizeof(char *) * bsize);
+			if (tokens == NULL)
 			{
-				free(output);
+				write(STDERR_FILENO, ": allocation error\n", 18);
 				exit(EXIT_FAILURE);
 			}
 		}
 		token = _strtok(NULL, delimiter);
+		tokens[i] = token;
 	}
-	output[i] = NULL;
 
-	return (output);
+	return (tokens);
 }
 
 /**

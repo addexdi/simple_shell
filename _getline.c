@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * assign_lineptr - Reassigns the lineptr variable for _getline.
  * @line_ptr: A buffer to store an input string.
@@ -45,11 +44,12 @@ void assign_lineptr(char **line_ptr, size_t *n, char *buffer, size_t b)
  *
  * Return: The number of bytes read.
  */
+
 ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 {
 	size_t *new = n;
 	char **lineptr = line_ptr;
-	static ssize_t input = 0;
+	static ssize_t input;
 	ssize_t ret = 0;
 	char c = 'x';
 	char *buffer = NULL;
@@ -59,11 +59,10 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 		fflush(stream);
 	else
 		return (-1);
-
 	buffer = malloc(sizeof(char) * 120);
 	if (!buffer)
 		return (-1);
-
+  
 	while (c != '\n')
 	{
 		r = read(STDIN_FILENO, &c, 1);
@@ -83,7 +82,6 @@ ssize_t _getline(char **line_ptr, size_t *n, FILE *stream)
 	}
 	buffer[input] = '\n';
 	assign_lineptr(lineptr, new, buffer, input);
-
 	ret = input;
 	if (r != 0)
 		input = 0;

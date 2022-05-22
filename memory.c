@@ -35,4 +35,5 @@ void free_cmd(cmd_t *cmd)
 		free(cmd->envar[i]);
 
 	free(cmd->envar);
+	free(cmd->pid);
 }
