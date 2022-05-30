@@ -39,6 +39,7 @@ int main(void)
 	{
 		printf("Invalid ");
 	}
+	printf("\n");
 
 	return (0);
 }
