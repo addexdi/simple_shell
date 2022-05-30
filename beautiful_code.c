@@ -37,7 +37,7 @@ int main(void)
 	}
 	else
 	{
-		printf("Invalid Operator");
+		printf("Invalid ");
 	}
 
 	return (0);
